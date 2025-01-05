@@ -13,5 +13,7 @@ Do not use the root user for administrative tasks or everyday tasks.
 "Action": "iam:CreateUser"
 - Resource: Specifies the object or objects that the statement covers
 "Resource": "arn:aws:iam::account-ID-without-hyphens:user/Bob"
+- USE IAM ROLES WHEN POSSIBLE. Maintaining roles is easier than maintaining users. When you assume a role, IAM dynamically provides temporary credentials that expire after a defined period of time, between 15 minutes and 36 hours. Users, on the other hand, have long-term credentials in the form of user name and password combinations or a set of access keys.
+
 
 
