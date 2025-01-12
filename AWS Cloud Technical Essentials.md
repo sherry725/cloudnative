@@ -58,3 +58,31 @@ You never pay for idle resources.
 Availability and fault tolerance are built-in.
 
 If you want to deploy your workloads and applications without having to manage any EC2 instances or containers, you can use AWS Lambda. There are three primary components of a Lambda function: the trigger, code, and configuration.
+
+AWS Networking
+WHAT ARE IP ADDRESSES?
+In order to properly route your messages to a location, you need an address. Just like each home has a mail address, each computer has an IP address, which is a 32-bit address.
+
+WHAT IS IPV4 NOTATION?
+Typically, you don’t see an IP address in this binary format. Instead, it’s converted into decimal format and noted as an Ipv4 address. 
+
+If you wanted to express IP addresses between the range of 192.168.1.0 and 192.168.1.255, one way is by using Classless Inter-Domain Routing (CIDR) notation. CIDR notation is a compressed way of specifying a range of IP addresses. For example, 192.168.1.0/24 means the first 24 bits of the IP address are fixed, 32 total bits subtracted by 24 fixed bits leaves 8 flexible bits. Each of these flexible bits can be either 0 or 1, because they are binary. That means you have two choices for each of the 8 bits, providing 256 IP addresses in that IP range. 
+
+A VPC is an isolated network you create in the AWS cloud, similar to a traditional network in a data center. When you create a VPC, you need to choose three main things. 
+The name of your VPC.
+A Region for your VPC to live in. Each VPC spans multiple Availability Zones within the Region you choose.
+A IP range for your VPC in CIDR notation. This determines the size of your network. Each VPC can have up to four /16 IP ranges.
+
+Create a Subnet After you create your VPC, you need to create subnets inside of this network. Think of subnets as smaller networks inside your base network—or virtual area networks (VLANs) in a traditional, on-premises network. 
+In AWS, subnets are used for high availability and providing different connectivity options for your resources. When you create a subnet, you need to choose three settings.
+The VPC you want your subnet to live in, in this case VPC (10.0.0.0/16).
+The Availability Zone you want your subnet to live in, in this case AZ1.
+A CIDR block for your subnet, which must be a subset of the VPC CIDR block, in this case 10.0.0.0/24.
+
+For AWS to configure your VPC appropriately, AWS reserves five IP addresses in each subnet.
+A common starting place for those who are new to the cloud is to create a VPC with a IP range of /16 and create subnets with a IP range of /24. 
+
+To enable internet connectivity for your VPC, you need to create an internet gateway. Think of this gateway as similar to a modem. Just as a modem connects your computer to the internet, the internet gateway connects your VPC to the internet.
+
+A virtual private gateway allows you to connect your AWS VPC to another private network. Once you create and attach a VGW to a VPC, the gateway acts as anchor on the AWS side of the connection. On the other side of the connection, you’ll need to connect a customer gateway to the other private network. A customer gateway device is a physical device or software application on your side of the connection. Once you have both gateways, you can then establish an encrypted VPN connection between the two sides. 
+
