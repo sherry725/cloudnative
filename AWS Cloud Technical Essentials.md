@@ -45,6 +45,16 @@ By default, your EC2 instances are placed in a network called the default Amazon
 When you stop and start an instance (4), your instance may be placed on a new underlying physical server. Therefore, you lose any data on the instance store that were on the previous host computer. When you stop an instance, the instance gets a new public IP address but maintains the same private IP address. When you terminate an instance (5), the instance store are erased, and you lose both the public IP address and private IP address of the machine. Termination of an instance means you can no longer access the machine. 
 When you stop-hibernate your instance, AWS signals the operating system to perform hibernation (suspend-to-disk), which saves the contents from the instance memory (RAM) to the Amazon EBS root volume.
 
+Amazon EKS vs Amazon ECS
+An EC2 instance with the ECS Agent installed and configured is called a container instance. In Amazon EKS, it is called a worker node.
+An ECS Container is called a task. In the Amazon EKS ecosystem, it is called a pod.
+While Amazon ECS runs on AWS native technology, Amazon EKS runs on top of Kubernetes.
 
+SERVERLESS CONTAINERS WITH AWS FARGATE
+Every definition of serverless mentions four aspects.
+No servers to provision or manage.
+Scales with usage.
+You never pay for idle resources.
+Availability and fault tolerance are built-in.
 
-
+If you want to deploy your workloads and applications without having to manage any EC2 instances or containers, you can use AWS Lambda. There are three primary components of a Lambda function: the trigger, code, and configuration.
