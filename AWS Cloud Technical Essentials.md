@@ -173,6 +173,62 @@ It is file storage.
 You pay for what you use (you don’t have to provision storage in advance).
 Amazon EFS and Amazon FSx can be mounted onto multiple EC2 instances.
 
+A relational database organizes data into tables. Data in one table can be linked to data in other tables to create relationships—hence, the relational part of the name. The tables, rows, columns, and relationships between them is referred to as a logical schema. With relational databases, a schema is fixed. Once the database is operational, it becomes difficult to change the schema. This requires most of the data modeling to be done upfront before the database is active.
+
+There are many benefits to using a relational database. A few of them are listed here.
+Joins: You can join tables, enabling you to better understand relationships between your data.
+Reduced redundancy: You can store data in one table and reference it from other tables instead of saving the same data in different places.
+Familiarity: Relational databases have been a popular choice since the 1970s. Due to this popularity, technical professionals often have familiarity and experience with this type of database.
+Accuracy: Relational databases ensure that your data is persisted with high integrity and adheres to the ACID (atomicity, consistency, isolation, durability) principle.
+
+Common use cases for relational databases.
+- 1. Applications that have a solid schema that doesn’t change often, such as:
+Lift and shift applications that lifts an app from on-premises and shifts it to the cloud, with little or no modifications.
+- 2. Applications that need persistent storage that follows the ACID principle, such as:
+Enterprise Resource Planning (ERP) applications
+Customer Relationship Management (CRM) applications
+Commerce and financial applications
+
+If you host a database on Amazon EC2, AWS takes care of implementing and maintaining the physical infrastructure and hardware and installing the operating system of the EC2 instance. However, you’re still responsible for managing the EC2 instance, managing the database on that host, optimizing queries, and managing customer data. This is what is often referred to as the unmanaged database option on AWS. AWS is responsible for and has control over the hardware and underlying infrastructure, and you are responsible and have control over management of the host and database.Managed Database services provide the setup of both the EC2 instance and the database, and they provide systems for high availability, scalability, patching, and backups. However, you’re still responsible for database tuning, query optimization, and of course, ensuring that your customer data is secure. This provides you ultimate convenience, but you have the least amount of control compared to the two previous options.
+
+Amazon RDS is built off of compute and storage. The compute portion is called the DB (database) instance, which runs the database engine. Depending on the engine of the DB instance you choose, the engine will have different supported features and configurations. A DB instance can contain multiple databases with the same engine, and each database can contain multiple tables.  Underneath the DB instance is an EC2 instance. However, this instance is managed through the Amazon RDS console instead of the Amazon EC2 console. When you create your DB instance, you choose the instance type and size. Amazon RDS supports three instance families.
+Standard, which include general-purpose instances
+Memory Optimized, which are optimized for memory-intensive applications
+Burstable Performance, which provides a baseline performance level, with the ability to burst to full CPU usage.
+
+Much like a regular EC2 instance, the DB instance uses Amazon Elastic Block Store (EBS) volumes as its storage layer. You can choose between three types of EBS volume storage.
+General purpose (SSD), Provisioned IOPS (SSD), Magnetic storage (not recommended)
+When you create a DB instance, you select the Amazon Virtual Private Cloud (VPC) that your databases will live in. Then, you select the subnets that you want the DB instances to be placed in. This is referred to as a DB subnet group. To create a DB subnet group, you specify:
+The Availability Zones (AZs) that include the subnets you want to add
+The subnets in that AZ where your DB instance are placed
+The subnets you add should be private so they don’t have a route to the internet gateway. This ensures your DB instance, and the cat data inside of it, can only be reached by the app backend.  Access to the DB instance can be further restricted by using network access control lists (ACLs) and security groups. With these firewalls, you can control, at a granular level, what type of traffic you want to allow into your database.  Using these controls provide layers of security for your infrastructure. It reinforces that only the backend instances have access to the database.
+If you want to restrict what actions and resources your employees can access, you can use IAM policies.
+
+Back Up Your Data
+You don’t want to lose any of that precious cat information. To take regular backups of your RDS instance, you can use: Automatic backups or Manual snapshots. You can retain your automated backups between 0 and 35 days. If you want to keep your automated backups longer than 35 days, use manual snapshots. Manual snapshots are similar to taking EBS snapshots, except you manage them in the RDS console. These are backups that you can initiate at any time, that exist until you delete them.  When you enable Amazon RDS Multi-AZ, Amazon RDS creates a redundant copy of your database in another AZ. You end up with two copies of your database: a primary copy in a subnet in one AZ and a standby copy in a subnet in a second AZ. When you create a DB instance, a domain name system (DNS) name is provided. AWS uses that DNS name to failover to the standby database. In an automatic failover, the standby database is promoted to the primary role and queries are redirected to the new primary database. To ensure that you don’t lose Multi-AZ configuration, a new standby database is created by either: Demoting the previous primary to standby if it’s still up and running Or standing up a new standby DB instance. The reason you can select multiple subnets for an Amazon RDS database is because of the Multi-AZ configuration. You’ll want to ensure that you have used subnets in different AZs for your primary and standby copies.
+
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database so that you don't have to worry about hardware provisioning, setup and configuration, replication, software patching, or cluster scaling. 
+All of your data is stored on solid-state disks (SSDs) and is automatically replicated across multiple Availability Zones in an AWS Region, providing built-in high availability and data durability. 
+Core Components of Amazon DynamoDB
+In DynamoDB, tables, items, and attributes are the core components that you work with. A table is a collection of items, and each item is a collection of attributes. DynamoDB uses primary keys to uniquely identify each item in a table and secondary indexes to provide more querying flexibility. 
+The following are the basic DynamoDB components:
+Tables – Similar to other database systems, DynamoDB stores data in tables. A table is a collection of data. For example, see the example table called People that you could use to store personal contact information about friends, family, or anyone else of interest. You could also have a Cars table to store information about vehicles that people drive.
+Items – Each table contains zero or more items. An item is a group of attributes that is uniquely identifiable among all of the other items. In a People table, each item represents a person. For a Cars table, each item represents one vehicle. Items in DynamoDB are similar in many ways to rows, records, or tuples in other database systems. In DynamoDB, there is no limit to the number of items you can store in a table.
+Attributes – Each item is composed of one or more attributes. An attribute is a fundamental data element, something that does not need to be broken down any further. For example, an item in a People table contains attributes called PersonID, LastName, FirstName, and so on. For a Department table, an item might have attributes such as DepartmentID, Name, Manager, and so on. Attributes in DynamoDB are similar in many ways to fields or columns in other database systems.
+Security with Amazon DynamoDB
+DynamoDB also offers encryption at rest, which eliminates the operational burden and complexity involved in protecting sensitive data.
+
+Relational, Traditional applications, ERP, CRM, e-commerce, can use Amazon RDS, Amazon Aurora, Amazon Redshift
+Key-value, High-traffic web apps, e-commerce systems, gaming applications can use Amazon DynamoDB
+In-memory, Caching, session management, gaming leaderboards, geospatial applications, can use Amazon ElastiCache for Memcached, Amazon ElastiCache for Redis
+Document, Content management, catalogs, user profiles, can use Amazon DocumentDB (with MongoDB compatibility)
+Wide column, High-scale industrial apps for equipment maintenance, fleet management, and route optimization, can use Amazon Keyspaces (for Apache Cassandra)
+Graph, Fraud detection, social networking, recommendation engines, can use Amazon Neptune
+Time series, IoT applications, DevOps, industrial telemetry, can use Amazon Timestream
+Ledger (immutable), Systems of record, supply chain, registrations, banking transactions, can use Amazon QLDB
+
+
+
 
 
 
