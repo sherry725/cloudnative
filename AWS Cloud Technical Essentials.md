@@ -1,4 +1,4 @@
-# Part 1
+# Part 1 Overview and Security
 * CHOOSE THE RIGHT AWS REGION - Latency, Price, Service availability, Data compliance
 To keep your application available, you need to maintain high availability and resiliency. A well-known best practice for cloud architecture is to use Region-scoped, managed services.
 * An AWS Region is a physical location in the world that has multiple Availability Zones. Availability Zones consist of one or more discrete data centers, each with redundant power, networking, and connectivity, housed in separate facilities.
@@ -19,7 +19,7 @@ Do not use the root user for administrative tasks or everyday tasks.
 * With IAM, a company can create an IAM user group, grant the user group the permissions to perform specific job functions, and assign users to a group. This way, the company provides granular access to its employees, and people and services have permissions to only the resources that they need. The company could also achieve the same purpose by using IAM roles for federated access and using granular policies that are attached to roles. 
 - USE IAM ROLES WHEN POSSIBLE. Maintaining roles is easier than maintaining users. When you assume a role, IAM dynamically provides temporary credentials that expire after a defined period of time, between 15 minutes and 36 hours. Users, on the other hand, have long-term credentials in the form of user name and password combinations or a set of access keys.
 
-# Part 2
+# Part 2 Compute & Networking
 * Servers often times can handle Hypertext Transfer Protocol (HTTP) requests and send responses to clients following the client-server mode.
 * Common HTTP servers include:
 - Windows options, such as Internet Information Services (IIS).
@@ -96,7 +96,7 @@ If you associate a custom route table with a subnet, the subnet will use it inst
 
 * The next layer of security is for your EC2 Instances. Here, you can create a firewall called a security group. The default configuration of a security group blocks all inbound traffic and allows all outbound traffic. Security groups are stateful, meaning they will remember if a connection is originally initiated by the EC2 instance or from the outside and temporarily allow traffic to respond without having to modify the inbound rules.
 
-# Part 3
+# Part 3 Storage & Databases on AWS
 Block Storage
 While file storage treats files as a singular unit, block storage splits files into fixed-size chunks of data called blocks that have their own addresses. Since each block is addressable, blocks can be retrieved efficiently. Since block storage is optimized for low-latency operations, it is a typical storage choice for high-performance enterprise workloads, such as databases or enterprise resource planning (ERP) systems, that require low-latency storage.
 
@@ -227,10 +227,35 @@ Graph, Fraud detection, social networking, recommendation engines, can use Amazo
 Time series, IoT applications, DevOps, industrial telemetry, can use Amazon Timestream
 Ledger (immutable), Systems of record, supply chain, registrations, banking transactions, can use Amazon QLDB
 
+# Part 4 Monitoring & Optimization
+The act of collecting, analyzing, and using data to make decisions or answer questions about your IT resources and systems is called monitoring. 
+The resources that host your solutions on AWS all create various forms of data that you might be interested in collecting. You can think of each individual data point that is created by a resource as a metric. Metrics that are collected and analyzed over time become statistics. Generally speaking, if an EC2 instance has a high CPU utilization, it can mean a flood of requests. Or it can reflect a process that has encountered an error and is consuming too much of the CPU. When analyzing CPU utilization, take a process that exceeds a specific threshold for an unusual length of time. Use that abnormal event as a cue to either manually or automatically resolve the issue through actions like scaling the instance.  This is one example of a metric. Other examples of metrics EC2 instances have are network utilization, disk performance, memory utilization, and the logs created by the applications running on top of EC2. An Amazon Simple Storage Service (S3) bucket would not have CPU utilization like an EC2 instance does. Instead, S3 creates metrics related to the objects stored in a bucket like the overall size, or the number of objects in a bucket. S3 also has metrics related to the requests made to the bucket such as reading or writing objects.  Amazon Relational Database Service (RDS) creates metrics such as database connections, CPU utilization of an instance, or disk space consumption. 
+Benefits of Monitoring:
+Respond to operational issues proactively before your end users are aware of them. 
+Improve the performance and reliability of your resources.
+Recognize security threats and events. 
+Make data-driven decisions for your business.
+Create more cost-effective solutions. 
+You can use CloudWatch to:
+Detect anomalous behavior in your environments.
+Set alarms to alert you when something’s not right.
+Visualize logs and metrics with the AWS Management Console.
+Take automated actions like scaling.
+Troubleshoot issues.
+Discover insights to keep your applications healthy.
 
+Many AWS services send metrics automatically for free to CloudWatch at a rate of one data point per metric per 5-minute interval, without you needing to do anything to turn on that data collection. This by itself gives you visibility into your systems without you needing to spend any extra money to do so. This is known as basic monitoring. For applications running on EC2 instances, you can get more granularity by posting metrics every minute instead of every 5 minutes using a feature like detailed monitoring. Detailed monitoring has an extra fee associated. 
+Custom metrics allows you to publish your own metrics to CloudWatch. Examples of custom metrics: number of page views, Web page load times, 
+Request error rates, Number of processes or threads on your instance, Amount of work performed by your application.
 
+CloudWatch can also be the centralized place for logs to be stored and analyzed, using CloudWatch Logs. CloudWatch Logs allows you to query and filter your log data. You also set up metric filters on logs, which turn log data into numerical CloudWatch metrics that you graph and use on your dashboards. Some services are set up to send log data to CloudWatch Logs with minimal effort, like AWS Lambda. With AWS Lambda, all you need to do is give the Lambda function the correct IAM permissions to post logs to CloudWatch Logs. Other services require more configuration. For example, if you want to send your application logs from an EC2 instance into CloudWatch Logs, you need to first install and configure the CloudWatch Logs agent on the EC2 instance. The CloudWatch Logs agent enables Amazon EC2 instances to automatically send log data to CloudWatch Logs. The agent includes the following components. A plug-in to the AWS Command Line Interface (CLI) that pushes log data to CloudWatch Logs. A script that initiates the process to push data to CloudWatch Logs. A cron job that ensures the daemon is always running. After the agent is installed and configured, you can then view your application logs in CloudWatch Logs.  
 
+To set up an alarm you need to choose the metric, the threshold, and the time period. An alarm has three possible states. OK: The metric is within the defined threshold. Everything appears to be operating like normal. ALARM: The metric is outside of the defined threshold. This could be an operational issue. INSUFFICIENT_DATA: The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state. An alarm can be triggered when it transitions from one state to another. Once an alarm is triggered, it can initiate an action. Actions can be an Amazon EC2 action, an Auto Scaling action, or a notification sent to Amazon Simple Notification Service (SNS).
 
-
-
+To increase availability, you need redundancy. This typically means more infrastructure: more data centers, more servers, more databases, and more replication of data. An easy way to fix the physical location issue is by deploying a second EC2 instance in a different Availability Zone. That would also solve issues with the operating system and the application. However, having more than one instance brings new challenges: Create a Process for Replication
+Address Customer Redirection: The most common is using a Domain Name System (DNS) where the client uses one record which points to the IP address of all available servers. However, the time it takes to update that list of IP addresses and for the clients to become aware of such change, sometimes called propagation, is typically the reason why this method isn’t always used. 
+Another option is to use a load balancer which takes care of health checks and distributing the load across each server. Being between the client and the server, the load balancer avoids propagation time issues. 
+Understand the Types of High Availability: To address when having more than one server is the type of availability you need—either be an active-passive or an active-active system. 
+Active-Passive: With an active-passive system, only one of the two instances is available at a time. One advantage of this method is that for stateful applications where data about the client’s session is stored on the server, there won’t be any issues as the customers are always sent to the same server where their session is stored.
+Active-Active: A disadvantage of active-passive and where an active-active system shines is scalability. By having both servers available, the second server can take some load for the application, thus allowing the entire system to take more load. However, if the application is stateful, there would be an issue if the customer’s session isn’t available on both servers. Stateless applications work better for active-active systems.
 
