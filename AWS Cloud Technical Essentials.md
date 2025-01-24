@@ -304,9 +304,9 @@ Horizontal Scaling, for the application to work in an active-active system, itâ€
 The EC2 Auto Scaling service works to add or remove capacity to keep a steady and predictable performance at the lowest possible cost. By adjusting the capacity to exactly what your application uses, you only pay for what your application needs. And even with applications that have steady usage, EC2 Auto Scaling can help with fleet management. If there is an issue with an EC2 instance, EC2 Auto Scaling can automatically replace that instance. This means that EC2 Auto Scaling helps both to scale your infrastructure and ensure high availability. 
 
 There are three main components to EC2 Auto Scaling.
-Launch template or configuration: What resource should be automatically scaled?
+- Launch template or configuration: What resource should be automatically scaled?
 EC2 Auto Scaling Group: Where should the resources be deployed? This is where you specify the Amazon Virtual Private Cloud (VPC) and subnets the EC2 instance should be launched in. Itâ€™s important to select at least two subnets that are across different Availability Zones. Three capacity settings to configure for the group size: min, max, desired capacity
-Scaling policies: When should the resources be added or removed?
+- Scaling policies: When should the resources be added or removed?
 In the AWS Monitoring module, you learned about Amazon CloudWatch metrics and alarms. You use metrics to keep information about different attributes of your EC2 instance like the CPU percentage. You use alarms to specify an action when a threshold is reached. Metrics and alarms are what scaling policies use to know when to act. For example, you set up an alarm that says when the CPU utilization is above 70% across the entire fleet of EC2 instances, trigger a scaling policy to add an EC2 instance.
 There are three types of scaling policies: simple, step, and target tracking scaling.
 Simple Scaling Policy
@@ -316,3 +316,4 @@ This is where a step scaling policy helps. Step scaling policies respond to addi
 Deciding when to add and remove instances based on CloudWatch alarms may seem like a difficult task. This is why the third type of scaling policy exists: target tracking.
 Target Tracking Scaling Policy
 If your application scales based on average CPU utilization, average network utilization (in or out), or based on request count, then this scaling policy type is the one to use. All you need to provide is the target value to track and it automatically creates the required CloudWatch alarms.
+- EC2 Auto Scaling group
