@@ -26,3 +26,23 @@ You also want stability. You want your processes to be as level as possible beca
  Focus                  Economies of Scale      System Efficiency
 
  Jidoka means error proofing and the idea behind it is that you want to build your whole supply chain system in such a way that it is very difficult for individual workers to make mistakes.
+
+ Agile supply chain: Fast, an agile supply chain can react to any changes very quickly. Flexible. So when you have an agile supply chain, you don't worry too much about, say, getting your forecast perfect right from the beginning. Because you have speed and flexibility to make sure that the changes in consumer demand on this one product, you react to it. Experimentation. You're willing to try new things out, see if they work. And if they do work, then they could become a major part of your company, and if they don't work, you move on to the next thing. So it's this very entrepreneurial approach to supply chain management, which is very different from both a Lean approach and sort of your traditional economies of scale. Because economies of scale, you try to have everything as fixed as possible, and in Lean you want to sort of move with the speed of customer, but you don't want to be changing things around constantly and chasing new trends and trying new things. So an agile supply chain typically is very popular in, for example, the fashion industry, where you have new trends, and you want to take advantage of those trends. And once a trend dies down, you shut this one part down and you move over to something completely different, and then you start up something new, and all the time you're just chasing trend after trend after trend. That's when an agile supply chain has to be implemented. So an agile supply chain doesn't really worry about establishing anything permanent, everything is up to change and you really want to focus on being able to keep up.
+
+Implementing the agile supply chain - Speed:
+Source                      Make                            Deliver
+Faster sourcing             Faster manufacturing            Faster deliveries
+Reduce wait time            Reduce wait time                Reduce wait time
+
+Implementing the agile supply chain - Flexibility:
+Teams - Short runs, Focus on speed, Cross training, Changeovers
+
+Implementing the agile supply chain - Experimentation:
+Strive for effciency (while accepting speed and flexibility)
+- do more with less
+- refine processes
+Tolerate failure
+- encourage process improvement
+- reward creativity
+Culture of innovation
+
