@@ -81,3 +81,26 @@ Inventory tracking: attempt to track inventory across companies. So they give co
 CRM: customer relationship management systems, and and those typically contain information about a given customer. Where you pull up a customer and you see all of the orders they placed and maybe payments information and maybe information about what their plans are or how to engage with them better.
 Risk Mangement,  give companies early warning on potential supply chain risk that they may be facing
 CPFR, a protocol for how customers and suppliers can jointly share information and make decisions on forecasting and replenishment in a way that it benefits both sides, starts with a front-end agreement on here's what data which we plan to share and how it will be used and all of the protection of that data. Then you create a joint business plan, and then each side creates a sales forecast.
+
+Blockchain
+Distributed ledger systems
+Tracks changes to the state of data assets
+Consensus validation protocols to approve transactions
+Chaincode that automate flows and exchanges of data (smart contracts)
+Advantages:
+Boundary spanning IT system
+Gateway to end-to-end transparency
+Real-time, up-to-date, synchronized data
+Great promise for procurement organizations
+Barriers:
+Maturity of the technology
+Suitability of applications
+Efficiency of updating
+Willingness to share data
+
+Procurement
+Smart contracts, feed in Include terms and conditions, Execution instructions, Process logic, Visibility into multiple tiers
+Manufacturing
+Visibility, feed in each asset has an identity, new blocks created as asset moves through the supply chain, choose which information to attach at each state
+Logistics
+Track and trace, feed in Bill of lading, clear origin of products, identity of producer
