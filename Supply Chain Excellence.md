@@ -150,4 +150,25 @@ Cash flow: bridge between the income statement and the balance sheet. it looks a
 https://corporatefinanceinstitute.com/resources/financial-modeling/sources-and-uses-of-cash/
 https://www.sec.gov/about/reports-publications/investorpubsbegfinstmtguide
 
+How many days does it take a company to pay for and generate cash from the sales of its inventory?
+https://blogs.cfainstitute.org/insideinvesting/2013/05/21/a-look-at-the-cash-conversion-cycle/
 
+This is what the Cash Conversion Cycle or Net Operating Cycle tells us. It gives us an indication as to how long it takes a company to collect cash from sales of inventory. Often a company will finance its inventory instead of paying for it with cash up front. This means they owe someone money which generates "Accounts Payable". Many times they will turn around and sell that inventory on credit without getting all the cash at the time of the sale. This means people owe them money and generates "Accounts Receivable". The formula for the Cash Conversion Cycle is:
+CCC = Days of Sales Outstanding PLUS Days of Inventory Outstanding MINUS Days of Payables Outstanding
+or
+CCC = DSO + DIO - DPO
+The entire CCC is often referred to as the Net Operating Cycle. It is "net" because it subtracts the number of days of Payables the company has outstanding from the Operating Cycle. The logic behind this is that Payables are really viewed as a source of operating cash or working capital for the company. By contrast, Receivables, or cash the company has not received yet, decreases working capital available to the company to finance operations.
+
+Average Accounts Receivable would be Accounts Receivable at the beginning of the period plus Accounts Receivable at the end of the period divided by two. Similarly, Revenue per day would be Revenue for the year divided by 365. The complete formula therefore would be:
+DSO = [(BegAR + EndAR) / 2] / (Revenue / 365)
+DSO tells you how many days after the sale it takes people to pay you on average
+
+Days of Inventory Outstanding, or DIO, is similar to DSO but instead of comparing Sales per day relative to average Receivables it looks at Cost of Goods Sold per day relative to average Inventory levels. The formula would look like this:
+DIO = [(BegInv + EndInv / 2)] / (COGS / 365)
+DIO, sometimes referred to Days of Inventory on Hand and abbreviated DOH (Homer Simpson), tells you how many days inventory sits on the shelf on average.
+
+Operating Cycle = DSO + DIO
+Basically the Operating Cycle tells you how many days it takes for something to go from first being in inventory to receiving the cash after the sale
+
+DPO = [(BegAP+EndAP) / 2] / (COGS / 365)
+Days of Payables Outstanding tells you how many days the company takes to pay its suppliers. 
