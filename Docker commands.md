@@ -88,7 +88,43 @@ ctr c rm busybox-v1 #删除容器，删除容器前要停掉task
 
 **ctr命令无法构建镜像，不能进行docker build
 
-# docker commands
+# dockerfile 语法
+From 基础镜像
+centos镜像已经不维护yum源了
+RUN rm -rf /etc/yum.repos.d/*
+把yum.repos.d文件夹里的文件都删除
+RUN: 当前镜像构建过程中要运行的命令,包含两种模式
+- RUN echo hello # RUN <command>
+- RUN ["/bin/bash", "-c", "echo hello"] # = /bin/bash -c echo hello
+  RUN ["executable", "param1", "param2"]
+COPY Centos-vault-8.5.2111.repo /etc/yum.repos.d/
+把物理机上的Centos-vault... 拷贝到 镜像的yum.repos.d里
+RUN yum install wget -y
+RUN yum install nginx -y
+COPY index.html /usr/share/nginx/html/
+EXPOSE 80
+ENTRYPOINT ["/usr/sbin/nginx","-g","daemon off;"]
+
+CMD #类似于RUN指令，在docker run时运行
+为启动的容器制定默认要运行的程序，程序运行结束，容器也就结束
+CMD ["param1", "param2"] #作为ENTRYPOINT指令的默认参数
+指定的程序会被docker run命令行指定的运行程序所覆盖
+docker run -p 80 --name test -d dockerfile/test:v1
+-p只写了一个80，指说将镜像里的80端口随机映射到物理机的一个端口
+
+ENTRYPOINT #类似于CMD
+不会被docker run指定的指令所覆盖，docker run命令行参数会被当作参数送给ENTRYPOINT指定的程序
+一般变参使用CMD，定参使用ENTRYPOINT
+FROM nginx
+ENTRYPOINT ["nginx","-c"]
+CMD ["/etc/nginx/nginx.conf"]
+
+ADD #类似COPY，同样需求下，推荐COPY
+ADD 优点：当源文件为压缩文件，会自动复制并解压到目标路径
+ADD 缺点：当源文件为压缩文件，无法复制，镜像构建缓慢
+所以ADD适合压缩文件
+
+
 
 
 
