@@ -60,9 +60,42 @@ ctr images pull registry.cn-hangzhou.aliyuncs.com/google_containers/pause-amd64:
 ctr namespace ls
 ctr -n=namespace_name images ls # 指定namespace里面的images
 ctr -n=namespace_name images pull xxx # 把镜像拉取到指定命名空间
-ctr image pull docker.io/library/busybox:latest
-ctr images rm docker.io/library/busybox:latest
-ctr images export busybox.tar.gz docker.io/library/busybox:latest
+ctr image pull docker.io/library/mysql:latest
+ctr i tag docker.io/library/busybox:latest docker.io/library/busybox:v1 #给镜像打标签
+ctr i tag --force docker.io/library/busybox:latest docker.io/library/busybox:v1 #如果v1存在，强制替换
+ctr images rm docker.io/library/busybox:latest #删除镜像
+ctr images export mysql.tar.gz docker.io/library/mysql:latest
+ctr images import mysql.tar.gz --all-platforms #load镜像
+docker load -i mysql.tar.gz # docker load也可以
+
+# containerd 运行容器
+ctr run -d docker.io/library/busybox:latest busybox-v1 #同时创建容器和task
+ctr task ls #列出task
+ctr task exec --exec-id #PID -t busybox-v1 sh #进入容器里面
+ctr task rm -f busybox-v1 #删除task
+ctr tasks kill --signal 9 busybox-v1 #停掉task
+ctr c ls #列出容器
+ctr c rm busybox-v1 #删除容器，删除容器前要停掉task
+
+| container d commands                  | docker commands                       | remarks
+| ctr image ls                          | docker images                         | 
+| ctr image pull pause                  | docker pull pause                     | pull 一个pause的image
+| ctr image tag pause pause-test        | docker tag pause pause-test           | 给一个pause的image打标签
+| ctr image push pause-test             | docker push pause-test                |push pause-test的image
+| ctr image import pause.tar            | docker load pause.tar.gz              |导入本地镜像ctr不支持压缩
+| ctr run -d --env 111 pause-test pause | docker run -d --name=pause pause-test |运行一个容器
+| ctr task ls                           | docker ps                             |查看运行的容器
+
+**ctr命令无法构建镜像，不能进行docker build
+
+# docker commands
+
+
+
+
+
+
+
 
 
 
