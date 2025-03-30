@@ -124,6 +124,31 @@ ADD 优点：当源文件为压缩文件，会自动复制并解压到目标路�
 ADD 缺点：当源文件为压缩文件，无法复制，镜像构建缓慢
 所以ADD适合压缩文件
 
+VOLUME ["路径1","路径2"] #定义匿名数据卷，避免重要的数据因容器重启丢失
+也可以 docker run -v 修改挂载点
+
+WORKDIR #指定工作目录，会在构建镜像的每一层中都存在
+WORKDIR <ABSOLUTE PATH>
+
+ENV <KEY> <VALUE>
+ENV <KEY>=<VALUE>
+#之后可以通过$KEY引用
+
+USER <USER NAME>[:<USER GROUP>]
+
+ONBUILD #本次构建不会执行，当新的构建基于这个已构镜像时才会执行
+
+LABEL <KEY>=<VALUE> <KEY>=<VALUE> ...
+#给镜像添加一些元数据 metadata
+
+HEALTHCHECK [OPTIONS] CMD <COMMAND>
+#用于指定某个程序或者指令来监控容器服务的运行状态
+
+ARG #类似ENV,但作用域不一样，ARG设置的环境变量只在镜像构建过程中有效，构建好的镜像不存在此环境变量
+
+
+
+
 
 
 
