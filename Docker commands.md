@@ -147,6 +147,17 @@ HEALTHCHECK [OPTIONS] CMD <COMMAND>
 ARG #类似ENV,但作用域不一样，ARG设置的环境变量只在镜像构建过程中有效，构建好的镜像不存在此环境变量
 
 
+# docker容器的网络模式
+安装docker的时候会生成一个docker0的虚拟网桥
+每运行一个docker容器，都会生成一个veth设备对，一个接口在容器里，一个接口在物理机
+给容器起一个代号，这样可以直接以代号访问，避免重启容器ip变化带来的问题
+docker run --link=[container_name_to_connect]:[alias] [image] [command]
+docker run --net=[网络模式] --privileged=true [image] [command]
+--privileged=true run as root user
+none 创建的容器没有网络地址ip address,这样就可以自己分配静态IP
+--net=container:[container_name_to_connect] 创建的容器和指定容器共享IP
+bridge,默认模式，容器启动后会通过DHCP获取一个IP
+host,共享宿主机的网络IP
 
 
 
