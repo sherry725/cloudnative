@@ -20,6 +20,31 @@ webpage -> right click -> inspect
    button to search data
    底部也有一个Search
 
+数据确定
+静态
+1. 如果在Page Source能看到网页内容，就是静态页面
+2. 在Network页面，刷新，对于当前的名称下面的一条地址，点到Response/Preview,如果能看到网页内容，也属于静态加载页面
+
+动态
+在Network页面，刷新，过滤/勾选XHR, clear network log, 翻页, 点到Response/Preview, 能看到网页内容，这就是动态加载数据
+
+数据处理
+静态，采用requests模块
+动态，用selenium/requests处理
+requests模块，Network,查看Headers,请求方法可能是GET/POST
+
+请求分析
+请求头 Headers, 内容一般在User-Agent下面，有一长串数字/字母，这种就是头部反爬虫， 也可以查看Content-Type
+请求体 Payload, 数据也是一长串数字/字母，这种就是请求体加密
+请求地址 
+响应数据 Response/Preview反爬虫
+cookie操作
+
+断点方式
+xhr断点：发包位置，加密参数之后
+dom断点：执行某一个事件，加密参数之前
+
+
 接口定位：找到数据在哪个接口
 如果在Network页面，搜索按钮，找不到想要的数据，一般是因为：
 1. 字体加密,多数是静态
