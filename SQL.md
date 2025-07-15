@@ -31,6 +31,8 @@ Where Name Like '%\%%' Escape '\' # Name contains %
 
 Where Name Regexp '^[a-z].*ck$' # Name starts with any from a to z and end with ck, * = ? & +
 
+Where REGEXP_LIKE(mail, '^[A-Za-z][A-Za-z0-9_.-]*@leetcode\[.]com$', 'c') # email starts with a letter, email string may contain letters (upper or lower case), digits, underscore '_', period '.', and/or dash '-' and domain is leetcode.com
+
 # Exists
 Select w.name
 From Websites As w
