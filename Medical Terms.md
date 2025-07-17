@@ -33,6 +33,12 @@ diaphragm ['daɪəfræm] 橫隔膜
 superior vena cava 上腔靜脈 receives blood from the head and arms and chest and empties into the right atrium of the heart; formed from the azygos and both brachiocephalic veins
 inferior vena cava 下腔靜脈 
 pulmonary ['pʌlmənəri] 肺的 pulmonary arteries 肺動脈 pulmonary veins 肺靜脈
+foramen [fəʊ'reɪmən] 孔  ovale [əʊ'veɪl] 卵圓的
+ductus arteriosus 動脈導管: a blood vessel in a fetus that bypasses pulmonary circulation by connecting the pulmonary artery directly to the ascending aorta; normally closes at birth
+placenta [plə'sentə] 胎盤 foetal ['fiːtl] 胎兒的
+fenestrated [fɪ'nestreɪtɪd] 有小孔的
+cribriform ['krɪbrɪfɔːm] 篩狀的；有小孔的
+
 
 
 
