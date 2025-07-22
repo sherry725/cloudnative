@@ -4,6 +4,11 @@ Transthoracic [tharaesik] Echocardiography (TTE)
 Transesophageal [i:safaedri:l] Echocardiography (TEE), general anesthesia [aenasthi:ja] is required
 Intracardiac [ka:diaek] Echocardiography (ICE) (EP), in cath lab, through femoral [femaral] vein, no anesthesia needed
 
+4 chambers: see 4 chambers of the heart
+short axis: see aortic valve (mercedes)
+Bicaval: SVC, IVC, SVC go to RA, cannot see mitral valve
+Other: if see mitral valve
+
 Cardiac catheterization:
 venous catheterization: femoral vein -> right atrium
 arterial catheterization: femoral artery -> left ventricule

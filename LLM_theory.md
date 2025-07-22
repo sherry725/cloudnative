@@ -17,4 +17,7 @@ ChatGPT强化学习步骤
    输入问题 -> PPO模型（可以理解为ChatGPT模型） -> 结果输入到奖励模型 -> 奖励分数，如果分数比较低，需要利用PPO算法更新ChatGPT模型参数
 
 ChatGLM-6B
-GLM: 基于自回归空白填充的通用预训练框架，mask一个或多个词，然后训练模型预测mask的词
+GLM: 基于自回归空白填充的通用预训练框架，mask一个或多个词，然后训练模型预测mask的词,相比原始decoder
+1. 减小embedding层的梯度，提升训练稳定性
+2. 采用了基于Deep Norm的post layer norm
+3. replace ReLU actiation function with GeGLU
