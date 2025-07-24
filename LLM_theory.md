@@ -17,7 +17,43 @@ ChatGPT强化学习步骤
    输入问题 -> PPO模型（可以理解为ChatGPT模型） -> 结果输入到奖励模型 -> 奖励分数，如果分数比较低，需要利用PPO算法更新ChatGPT模型参数
 
 ChatGLM-6B
-GLM: 基于自回归空白填充的通用预训练框架，mask一个或多个词，然后训练模型预测mask的词,相比原始decoder
+GLM: Prefix-Decoder-Only, 基于自回归空白填充的通用预训练框架，
+mask一个或多个词，然后训练模型预测mask的词,相比原始decoder, 
+也就是在输入文本中随机挖去一些连续的文本片段，然后训练模型按照任意顺序重建这些片段
 1. 减小embedding层的梯度，提升训练稳定性
-2. 采用了基于Deep Norm的post layer norm
-3. replace ReLU actiation function with GeGLU
+2. 采用了基于Deep Norm的post layer norm, i.e. LayerNorm(x*a+f(x)),把x扩大了a倍,加强特征信息，正常layer norm是LayerNorm(x+f(x))
+3. replace ReLU (f(x) = max(0, x)) actiation function with GeGLU， GELU(x)=0.5x(1+tanh(sqrt(2/pi)(x+0.044715x^3))), 
+   GEGLU(x,W,V,b,c) = GELU(xW+b) x (xV+c),目的是为了训练得更加稳定
+4. 采用旋转位置编码RoPE，目的是为了得到Q和K的相对位置信息
+优点：较低的部署门槛，仅需6G显存 (INT4精度)，更长的序列长度（2K），支持更长的对话和应用，人类意图对齐训练
+缺点：模型容量小(vs GPT-3)，相对较弱的模型记忆和语言能力，较弱的多轮对话能力
+迭代版本：ChatGLM2-6B, ChatGLM3-6B， 多模态理解力，代码增强，网络搜索增强
+
+LLaMA
+训练数据以英文为主，所有训练数据都是开源的。训练目标是语言模型，根据已有的上文去预测下一个词。
+Byte Pair Encoding 算法训练得到tokenizer。Decoder-only. 
+Pre-normalization, 使用RMSNorm归一化函数，RMSNorm去掉了减去均值的部分，减少计算量
+Replace ReLU (f(x) = max(0, x)) actiation function with SwiGLU
+SwiGLU(x,W,V,b,c) = Swish1(xW+b) x (xV+c), Swish_beta(x) = x*sigma(beta*x)
+RoPE位置编码，相对位置编码可以让模型具备更长数据处理能力，提升模型推理长度
+优点：130亿参数的LLaMA大多数基准上超过GPT-3,650亿参数的LLaMA可以媲美google Chinchilla-70B, PaLM-540B
+缺点：会产生偏见性，虚假的内容，中文效果差，编码效率低，模型学习难度大
+LLaMA2:训练语料多出40%,上下文长度升级到4096，可以理解和生成更长的文本，注重安全&隐私
+
+BLOOM （from hugging face）
+包含46种语言，13种编程语言，训练目标是语言模型，根据已有的上文去预测下一个词。Byte Pair Encoding 算法训练得到tokenizer。Decoder-only. 
+embedding layer norm: 在embedding层后添加layer normalization,使训练更加稳定
+pre layer norm 提升稳定性
+GeLU activation function
+采用相对位置编码，ALiBi,外推性更好
+优点：多语言适应性
+缺点：会产生偏见性，虚假的内容
+
+Baichuan-7B (曾任sogoCEO，擅于抓取高质量数据)
+2023 开放且可商用，支持中英双语, BPE tokenizer，原始数据包括开源中英文数据，互联网抓取数据，知识型数据
+和LLaMA基本一样
+优点：较强通用性，翻译，问答，客服，金融，医疗，教育等，在C-EVAL/MMLU（中英文benchmark）上取得了同参数规模下最好效果
+
+
+
+
