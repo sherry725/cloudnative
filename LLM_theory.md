@@ -64,8 +64,43 @@ Fine-tuning
 将预训练的语言模型适应于特定任务或领域。用大语言模型在小规模的任务特定文本上继续训练。
 微调痛点：下游任务目标和预训练目标差距过大，可能过拟合，微调需要大量监督语料
 解决方法：prompt-tuning，通过添加模板的方法来避免引入额外的参数，让模型可以在少样本或0样本的场景下达到理想的效果
+
 Prompt-tuning
 下游任务去迁就预训练模型，把下游任务目标转换为pre-training的任务
+执行步骤：
+1. 构建模板 template，生成与给定句子相关的一个含[Mask]标记的模板
+2. 标签词映射 verbalizer, 因为[Mask]只对部分词感兴趣，因此需要建立一个映射关系, 不同的任务有其相应的label word标签词
+3. 训练，根据verbalizer, 获得指定label word的预测概率分布，并采用交叉信息熵进行训练。此时因为只对预训练好的MLM head进行微调，所以避免了过拟合问题。
+不同的任务有不同的template和label word,因此如何找到当前任务更加合适的template和label word是prompt-tuning非常重要的挑战。
+GPT-3 in-context learning， few shot example -> LLM -> inference, 问题：LLM需要是超大规模语言模型，小模型上效果下降很多，few shot过于简单，泛化性能低
+
+https://zhuanlan.zhihu.com/p/633699555
+PET （pattern exploiting training）模型， 2021
+基于Pattern-Verbalizer-Pair (PVP) 组件训练目标
+p(y∣x)=j=1∏n​p([mask]j​=V(y)∣T(x))
+不同的pattern和verbalizer会产生差异很大的结果
+人工设计pattern和verbalizer方法的缺陷：
+采用人工构建的方法成本高，需要与领域任务相关的先验知识；
+人工设计的Pattern和Verbalizer不能保证获得最优解，训练不稳定，不同的PVP对结果产生的差异明显，方差大；
+在预训练阶段MLM任务并非完全按照PVP的模式进行训练的（比如MLM训练通常都是长文本，mask的数量也并非只有1个，预测的概率分布也并非是有限的），因此人工构建的Pattern和Verbalizer使得Prompt-Tuning与MLM在语义和分布上依然存在差异。
+
+Prompt-Oriented Fine-Tuning
+Hard prompt: 离散提示，固定的提示模板，通过将特定关键词或短语直接嵌入到文本，引导模型生成符合要求的文本
+Soft prompt：连续提示，可参数化的提示模板
+T=[x],[v1],[v2],...,[vn][Mask]
+x:输入句子， [v1],[v2],...,[vn]是Pseudo Token,伪标记
+不同的任务，数据可以自适应地在语义空间中寻找若干合适的向量，来代表模板中的词，这类token称为Pseudo Token
+
+Paramter-efficient prompt tuning (PEPT)
+优点：将大模型参数固定，指定附加参数来适配下游任务，适配性能基本和全参数微调相当
+缺点：在小样本学习场景上表现不太行，收敛速度较慢，调参比较复杂
+
+P-Tuning:利用MLP和LSTM对prompt进行编码，编码之后与其他向量进行拼接之后正常输入LLM
+PEPT vs P-Tuning:
+PEPT 是将额外的embedding加在开头，看起来更像是模仿Instruction指令，可以不需要加入MLP来参数初始化
+P-Tuning 位置不固定，通过MLP+LSTM初始化
+P-Tuning v2：在模型的每一层都应用连续的prompt，并对prompt参数进行更新优化 
+
 
 
 
