@@ -65,8 +65,21 @@ Fine-tuning
 微调痛点：下游任务目标和预训练目标差距过大，可能过拟合，微调需要大量监督语料
 解决方法：prompt-tuning，通过添加模板的方法来避免引入额外的参数，让模型可以在少样本或0样本的场景下达到理想的效果
 
+超多参数（10亿）大模型可以进行prompt tuning
+1. prompt tuning不训练参数，zero-shot/one-shot/few-shot
+2. prompt tuning可以训练参数(固定大模型参数，只微调部分), P-Tuning/Prefix-Tuning/LoRA/In-Context Learning/Chain-of-Thought
+3. prompt tuning可以训练所有参数
+
+Instruction Tuning 通过给出更明显的指令，让模型去理解并做出正确的action,激发LLM的理解能力
+prompt提供判断选择，能够突出任务特性的模板，根据[Mask]位置的输出结果通过verbalizer映射到具体的标签上。
+为每个任务设计n个指令模板，测试时看平均表现
+
+Chain-of-Thought，Google论文中首次提出
+离散提示学习，增加推导提示，LLM首先“Let's think step by step”提示生成推理步骤，然后由“Therefore, the answer is”提示得出最终答案
+
 Prompt-tuning
 下游任务去迁就预训练模型，把下游任务目标转换为pre-training的任务
+** Prefix Tuning 的简化，只在输入层加入prompt tokens，不需要加入MLP进行调整来解决训练不稳定的问题
 执行步骤：
 1. 构建模板 template，生成与给定句子相关的一个含[Mask]标记的模板
 2. 标签词映射 verbalizer, 因为[Mask]只对部分词感兴趣，因此需要建立一个映射关系, 不同的任务有其相应的label word标签词
@@ -91,15 +104,30 @@ T=[x],[v1],[v2],...,[vn][Mask]
 x:输入句子， [v1],[v2],...,[vn]是Pseudo Token,伪标记
 不同的任务，数据可以自适应地在语义空间中寻找若干合适的向量，来代表模板中的词，这类token称为Pseudo Token
 
+P-Tuning:利用MLP和LSTM对prompt进行编码，编码之后与其他向量进行拼接之后正常输入LLM, NLU任务
+P-Tuning 位置不固定，通过MLP+LSTM初始化，只在输入的时候加入embedding
+P-Tuning v2：在模型的每一层都应用连续的prompt，并对prompt参数进行更新优化 
+
 Paramter-efficient prompt tuning (PEPT)
 优点：将大模型参数固定，指定附加参数来适配下游任务，适配性能基本和全参数微调相当
 缺点：在小样本学习场景上表现不太行，收敛速度较慢，调参比较复杂
-
-P-Tuning:利用MLP和LSTM对prompt进行编码，编码之后与其他向量进行拼接之后正常输入LLM
-PEPT vs P-Tuning:
 PEPT 是将额外的embedding加在开头，看起来更像是模仿Instruction指令，可以不需要加入MLP来参数初始化
-P-Tuning 位置不固定，通过MLP+LSTM初始化
-P-Tuning v2：在模型的每一层都应用连续的prompt，并对prompt参数进行更新优化 
+
+Paramter-efficient Fine-Tuning (PEFT=PEPT) 微调少量或额外的模型参数
+目前工业界应用大模型的主流方式之一，另外一个是RAG
+1. Prefix Tuning
+在输入之前构造一段任务相关的virtual tokens作为prefix,训练时只更新Prefix部分参数，而Transformer中的其他部分参数固定
+额外的embedding在开头，MLP初始化，每层都添加可训练参数
+MLP(让训练更加稳定) + Prefix，训练完成后只保留Prefix参数
+
+2. Adapter Tuning
+2019年谷歌首次提出针对BERT的PEFT微调方式
+在预训练模型内部的网络层之间添加新的网络层或模块来适配下游任务，当模型训练时，固定住原来预训练模型的参数不变，只对新增的Adapter结构进行微调
+
+3. LoRA 微软
+对大模型的权重矩阵进行隐式的低秩转换，也就是用一个较低维度来近似表示高维矩阵或数据集
+冻结预训练模型的权重，在每个Transformer块中注入可训练层（称为秩分解矩阵），在模型的linear层旁边增加一个branch, A和B, A将数据从d维降到r维，r是LoRA的秩，B将数据从r维升到d维，B部分的参数初始为0.模型结束后，需要将A+B的参数与原来大模型的参数合并在一起使用
+
 
 
 
